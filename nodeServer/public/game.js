@@ -1,3 +1,22 @@
+var socket = io.connect('http://localhost:80');
+// The visitor is asked for their username...
+var username = prompt('What is your username?');
+// It's sent with the signal "little_newbie" (to differentiate it from "message")
+socket.emit('new_user', username);
+// A dialog box is displayed when the server sends us a "message"
+socket.on('message', function(message) {
+    alert('Server response: ' + message);
+})
+//
+socket.on('game_state_update', function(message) {
+    drawMultiplePlayers(message);
+})
+
+// When the button is clicked, a "message" is sent to the server
+$('#ping').click(function () {
+    socket.emit('message', 'Client Ping Test');
+})
+
 var up = new Image;
 up.src = "player.png";
 var down = new Image;
@@ -7,30 +26,22 @@ left.src = "left.png";
 var right= new Image;
 right.src = "right.png";
 
-var w = window.innerWidth;
-var h = window.innerHeight;
-
-var arena = playArea();
-
 var date = new Date();
 var n = date.getTime();
 
-window.setInterval(getPlay, 1000/100);
+var w = window.innerWidth;
+var h = window.innerHeight;
+var arena = playArea();
 
-function getPlay(){
-	console.log("playing");
-	var xhr = new XMLHttpRequest();
-	var url = "http://192.168.1.18/gamestate";
-	xhr.open("GET", url, true);
-	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4 && xhr.status === 200) {
-			var json = JSON.parse(xhr.responseText);
-			console.log(json);
-			drawMultiplePlayers(json);
-		}
-	};
-	xhr.send();
+function playArea(){
+	var canvas = document.createElement('canvas');
+	canvas.style.display = "block";
+	canvas.id = "playArea";
+	canvas.width = w;
+	canvas.height = h;
+	document.body.appendChild(canvas);
+	document.body.style.margin = "0";
+	return canvas;
 }
 
 function drawMultiplePlayers(json){
@@ -64,45 +75,14 @@ function drawMultiplePlayers(json){
 	ctx.restore(); 
 }
 
-function playArea(){
-	var canvas = document.createElement('canvas');
-	canvas.style.display = "block";
-	canvas.id = "playArea";
-	canvas.width = w;
-	canvas.height = h;
-	document.body.appendChild(canvas);
-	document.body.style.margin = "0";
-	return canvas;
-}
-
-var playernum = 0;
-
-function updatePlayer(){
-	playernum = document.getElementById("textbox").value;
-}
-
 function postPlay(dir){
 	var date2 = new Date();
 	var nplus = date2.getTime();
 	if(nplus-n > (1000/10)){
-	var xhr = new XMLHttpRequest();
-	var url = "http://192.168.1.18/update";
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json", "Access-Control-Allow-Origin");
-	xhr.onreadystatechange = function (){
-		if (xhr.readyState === 4 && xhr.status === 200) {
-			var json = JSON.parse(xhr.responseText);
-			console.log(json);
-			//drawMultiplePlayers(json);
-		}else{
-			console.log(xhr.status);
-		}
-	};;
-	var data = JSON.stringify({"player": playernum, "direction": dir});
-	xhr.send(data);
+	var data = JSON.stringify({"player": username, "direction": dir});
+	socket.emit('client_update', data);;
 	n = nplus;
 	}
-	
 }
 
 window.onkeydown = function (e) {

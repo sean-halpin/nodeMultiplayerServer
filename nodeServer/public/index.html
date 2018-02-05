@@ -1,8 +1,16 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-	<body>
-		<div style="position:absolute">
-			<input id="textbox" type="text"/ style="display:inline"> <button onclick="updatePlayer()">Submit</button></body>
-		<div>
-	<script src="game.js"></script>
+    <head>
+        <meta charset="utf-8" />
+        <title>Client</title>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+ 
+    <body>
+        <h1>Client</h1>
+
+        <p><input type="button" value="Ping the server" id="ping" /></p>
+		<script src="game.js"></script>
+    </body>
 </html>
