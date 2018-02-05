@@ -1,7 +1,7 @@
 var socket = io.connect('http://localhost:80');
 // The visitor is asked for their username...
 var username = prompt('What is your username?');
-// It's sent with the signal "little_newbie" (to differentiate it from "message")
+// It's sent with the signal "new_user" (to differentiate it from "message")
 socket.emit('new_user', username);
 // A dialog box is displayed when the server sends us a "message"
 socket.on('message', function(message) {
