@@ -7,7 +7,7 @@
         <script src="/socket.io/socket.io.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <style>
-            canvas {
+        canvas {
             border:1px solid #d3d3d3;
             background-color: #f1f1f1;
         }
@@ -16,10 +16,48 @@
             margin: 10;
             overflow:hidden;
         }
+		button {
+			border:none;
+			background-color: Transparent;
+			overflow: hidden;
+			outline:none;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			position: fixed;
+		}
+		#up {
+			width: 100%;
+			height: 30%;
+			top: 10%;
+			left:0%;
+		} 
+		#left {
+			width: 50%;
+			top: 40%;
+			height: 30%;
+			left:0%;
+		}
+		#right {
+			width: 50%;
+			top: 40%;
+			left: 50%;
+			height: 30%;
+		}
+		#down {
+			left:0%;
+			width: 100%;
+			top: 70%;
+			height: 30%;
+		}
         </style>
     </head>
     <body> 
-        <div id="joinButton"><p><input type="button" value="New Player" id="join" />WASD to run around</p><div>
+        <div id="joinButton"><p><input type="button" value="New Player" id="join"/>WASD to run around</p><div>
+		<div style="position: absolute">
+			<button id="up"></button>
+			<button id="left"></button>
+			<button id="right"></button>
+			<button id="down"></button>
+		</div>
     </body>
     <script src="game.js"></script>
 </html>

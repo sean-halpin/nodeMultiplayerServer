@@ -89,3 +89,40 @@ window.onkeydown = function (e) {
         sendCommand("right");
     }
 };
+
+var up_button = document.getElementById("up");
+var down_button = document.getElementById("down");
+var left_button = document.getElementById("left");
+var right_button = document.getElementById("right");
+
+up_button.addEventListener('touchstart', function(event) {
+	event.preventDefault();
+	if (event.targetTouches.length == 1) {
+		sendCommand("up");
+	}
+}, false);
+
+down_button.addEventListener('touchstart', function(event) {
+	event.preventDefault();
+	if (event.targetTouches.length == 1) {
+		sendCommand("down");
+		
+	}
+}, false);
+
+left_button.addEventListener('touchstart', function(event) {
+	event.preventDefault();
+	if (event.targetTouches.length == 1) {
+		sendCommand("left");
+		
+	}
+}, false);
+
+right_button.addEventListener('touchstart', function(event) {
+	event.preventDefault();
+	if (event.targetTouches.length == 1) {
+		sendCommand("right");
+	
+	}
+}, false);
+
