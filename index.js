@@ -51,17 +51,12 @@ io.sockets.on('connection', function (socket, username) {
                console.log('Unknown Direction Recieved');
         }
         gameState.set(payload.player, playerState);
-        var updateSent = false;
-        while(!updateSent){
-          var thisFrameRenderTime = new Date().getTime();
-          if(thisFrameRenderTime-lastFrameRenderTime > (1000/33)){
-                //console.log("Return Payload : ", gameState.values());
-                updateSent = true;
-                lastFrameRenderTime = thisFrameRenderTime;
-                socket.emit('game_state_update', gameState.values());
-          }
-        }
     })
+
+    setInterval(broadcastGameState,1000/30);
+    function broadcastGameState(){
+        socket.broadcast.emit('game_state_update', gameState.values());
+    }
 });
 
 app.use(express.static('public'));
